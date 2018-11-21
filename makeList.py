@@ -4,7 +4,7 @@ import csv
 import openpyxl
 import zenhan
 
-with open('sample.csv', 'r') as f:
+with open('sample.csv', 'r') as f:  # csvの読み込み
     reader = csv.reader(f)
     count = 0
     wb = openpyxl.Workbook()
@@ -25,8 +25,8 @@ with open('sample.csv', 'r') as f:
     ws['K1'] = '第8回'
     ws['L1'] = '合計'
 
-    for row in reader:
-        if count < 3:  # 最初の3行の情報は不要なため削除
+    for row in reader:  # もととなるcsvを1行ずつ読み込み
+        if count < 3:  # 今回の出力形式だと最初の3行の情報は不要なため削除
             count += 1
             continue
 
@@ -35,6 +35,7 @@ with open('sample.csv', 'r') as f:
         ws['C' + str(row_n)] = zenhan.h2z(row[2])  # カナ氏名
         ws['D' + str(row_n)] = int(row[4])  # 学年
         ws['E' + str(row_n)] = row[5][8:]  # コース
+        ws['L' + str(row_n)] = '=COUNTIF(F' + str(row_n) + ':K' + str(row_n) + ',"○")'
         row_n += 1
 
 # 最後のスクリプトの定義
